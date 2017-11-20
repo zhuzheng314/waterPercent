@@ -21,7 +21,9 @@
     name: 'b-wave',
     data () {
       return {
-        percent: 0
+        percent: 0,
+        percentTimer: null,
+        positionTimer: null
       }
     },
     props: ['propValue', 'name'],
@@ -32,26 +34,25 @@
     },
     methods: {
       percentAnimate (num) {
-        let percentTimer
         let speed = 800 / num
-        clearInterval(percentTimer)
-        percentTimer = setInterval(() => {
+        clearInterval(this.percentTimer)
+        this.percentTimer = setInterval(() => {
           if (num > this.percent) {
             this.percent ++
           } else {
-            clearInterval(percentTimer)
+            this.percent = num
+            clearInterval(this.percentTimer)
           }
         }, speed)
       },
       positionAnimate (num) {
-        let positionTimer
-        clearInterval(positionTimer)
-        positionTimer = setInterval(() => {
+        clearInterval(this.positionTimer)
+        this.positionTimer = setInterval(() => {
           if (num > this.percent) {
             this.$refs.wave1.style.cssText = 'position: absolute; top:' + (120 - (this.percent * 1.4)) + 'px'
             this.$refs.wave2.style.cssText = 'position: absolute; top:' + (120 - (this.percent * 1.4)) + 'px'
           } else {
-            clearInterval(positionTimer)
+            clearInterval(this.positionTimer)
           }
         }, 5)
       },
@@ -118,7 +119,7 @@
               /*background-color: red;*/
               width: 400%;
               height: 150%;
-              background-image: url("./img/wave.png");
+              background-image: url("./wave.png");
               background-size: 800px 100%;
             }
             .wave1{
